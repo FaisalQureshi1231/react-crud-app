@@ -8,13 +8,13 @@ const CustomForm = styled('form')({
     width      : '100%',
     marginTop  : '10px'
 })
-function Create() {
+function Update() {
   return (
         <RootDiv>
             <Container sx={{ marginTop : '16px' }} maxWidth="md">
                 <Paper sx={{ padding : '16px', color: '#2C3D50' }}>
                     <Typography align="center" component="h1" variant="h5">
-                        Add User
+                        Update User
                     </Typography>
                     <CustomForm>
                         <Grid2 container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -71,7 +71,7 @@ function Create() {
                                 />
                             </Grid2>
                         </Grid2>
-                        <Button type="submit" fullWidth variant="contained" color="primary" sx={{ marginTop: 2 }}>Save</Button>
+                        <Button type="submit" fullWidth variant="contained" color="primary" sx={{ marginTop: 2 }}>Update</Button>
                     </CustomForm>
                 </Paper>
             </Container>
@@ -79,4 +79,4 @@ function Create() {
     )
 }
 
-export default Create
+export default Update
