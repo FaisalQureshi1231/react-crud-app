@@ -4,6 +4,7 @@ import Navbar from './components/partials/Navbar';
 import Home from './components/main/Home';
 import Users from './components/users/Users';
 import { Route, Routes } from 'react-router-dom';
+import Create from './components/users/Create';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='users' element = {<Users />} />
+        <Route path='create' element={<Create />} />
       </Routes>
     </>
   );
