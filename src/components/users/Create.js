@@ -1,5 +1,7 @@
 import { Button, Container, Grid2, Paper, styled, TextField, Typography } from '@mui/material'
-import React from 'react'
+import axios from 'axios';
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom';
 
 const RootDiv = styled('div')({
     flexGrow : 1
@@ -9,14 +11,54 @@ const CustomForm = styled('form')({
     marginTop  : '10px'
 })
 function Create() {
+    const [fname, setFname]       = useState('');
+    const [lname, setLname]       = useState('');
+    const [username, setUsername] = useState('');
+    const [email, setEmail]       = useState('');
+    const [avatar, setAvatar]     = useState('');
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        
+        const formData = {
+
+            'fname': fname,
+            'lname': lname,
+            'username': username,
+            'email': email,
+            'avatar': avatar,
+        }
+        if(!formData === ''){
+            return alert('Please fill the all fields');
+        }
+        else{
+            axios.post('https://www.melivecode.com/api/users/create',formData)
+                .then((response) => {
+                    console.log(response.data)
+                    const data = response.data;
+                    alert(data.message)
+                    if(data.status === 'ok'){
+
+                        window.location.href = '/users'
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
+    }
   return (
         <RootDiv>
             <Container sx={{ marginTop : '16px' }} maxWidth="md">
                 <Paper sx={{ padding : '16px', color: '#2C3D50' }}>
-                    <Typography align="center" component="h1" variant="h5">
+                    <Typography component="h1" variant="h5">
                         Add User
+                        <Link to='/users'>
+                            <Button sx={{float : 'right'}} variant="contained">Back</Button>
+                        </Link>
                     </Typography>
-                    <CustomForm>
+
+                    <CustomForm onSubmit={handleSubmit}>
                         <Grid2 container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                             <Grid2 size={6}>
                                 <TextField
@@ -28,6 +70,7 @@ function Create() {
                                     id="firstName"
                                     label="First Name"
                                     autoFocus
+                                    onChange={(e) => setFname(e.target.value)}
                                 />
                             </Grid2>
                             <Grid2  size={6}>
@@ -39,6 +82,7 @@ function Create() {
                                     fullWidth
                                     id="lastName"
                                     label="Last Name"
+                                    onChange={(e)=> setLname(e.target.value)}
                                 />
                             </Grid2>
                             <Grid2  size={6}>
@@ -48,6 +92,7 @@ function Create() {
                                     fullWidth
                                     id="username"
                                     label="Username"
+                                    onChange={(e) => setUsername(e.target.value)}
                                 />
                             </Grid2>
                             <Grid2  size={6}>
@@ -58,6 +103,7 @@ function Create() {
                                     id="email"
                                     label="Email"
                                     type="email"
+                                    onChange={(e) => setEmail(e.target.value)}
                                 />
                             </Grid2>
                             <Grid2  size={12}>
@@ -68,6 +114,7 @@ function Create() {
                                     id="avatar"
                                     label="Avatar"
                                     type="url"
+                                    onChange={(e) => setAvatar(e.target.value)}
                                 />
                             </Grid2>
                         </Grid2>

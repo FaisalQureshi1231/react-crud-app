@@ -1,12 +1,29 @@
-import React from 'react'
-import { Box, Button, Container, Paper, styled, Table, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
+import React, { useEffect, useState } from 'react'
+import { Avatar, Box, Button, ButtonGroup, Container, Paper, styled, Table, TableBody, 
+          TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
 import { Link } from 'react-router-dom';
+import axios from 'axios'
 
 const RootDiv = styled('div')({
   flexGrow : 1
 });
 
 function Users() {
+  const [users, setUsers] = useState([])
+
+  const getUsers = () => {
+    axios.get('https://www.melivecode.com/api/users')
+
+         .then((result) => {
+          console.log(result)
+                setUsers(result.data)
+         }).catch((err) => {
+            console.log('Error: ', err)
+         });
+  }
+  useEffect(()=>{
+    getUsers()
+  }, [])
   return (
     <RootDiv>
       <Container sx={{ marginTop : '16px' }} maxWidth="lg">
@@ -31,12 +48,33 @@ function Users() {
                 <TableRow>
                   <TableCell align="right">ID</TableCell>
                   <TableCell align="center">Avatar</TableCell>
-                  <TableCell align="left">First</TableCell>
-                  <TableCell align="left">Last</TableCell>
+                  <TableCell align="left">Name</TableCell>
                   <TableCell align="left">Username</TableCell>
                   <TableCell align="center">Action</TableCell>
                 </TableRow>
               </TableHead>
+              <TableBody>
+                {
+                  users.map(user => (
+                    <TableRow key={user.id}>
+                      <TableCell align="right">{user.id}</TableCell>
+                      <TableCell align="center">
+                        <Box display="flex" justifyContent="center">
+                          <Avatar src={user.avatar} />
+                        </Box>
+                      </TableCell>
+                      <TableCell align="left">{user.fname} {user.lname}</TableCell>
+                      <TableCell align="left">{user.username}</TableCell>
+                      <TableCell align="center">
+                        <ButtonGroup color="primary" aria-label="outlined primary button group">
+                          <Button>Edit</Button>
+                          <Button>Del</Button>
+                        </ButtonGroup>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                }
+              </TableBody>
             </Table>
           </TableContainer>
         </Paper>

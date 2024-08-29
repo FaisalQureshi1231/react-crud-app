@@ -5,6 +5,7 @@ import Home from './components/main/Home';
 import Users from './components/users/Users';
 import { Route, Routes } from 'react-router-dom';
 import Create from './components/users/Create';
+import Update from './components/users/Update';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='users' element = {<Users />} />
         <Route path='create' element={<Create />} />
+        <Route path='update' element={<Update />} />
       </Routes>
     </>
   );

@@ -1,5 +1,6 @@
 import { Button, Container, Grid2, Paper, styled, TextField, Typography } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom';
 
 const RootDiv = styled('div')({
     flexGrow : 1
@@ -9,12 +10,20 @@ const CustomForm = styled('form')({
     marginTop  : '10px'
 })
 function Update() {
+    const [fname, setFname]       = useState('');
+    const [lname, setLname]       = useState('');
+    const [username, setUsername] = useState('');
+    const [email, setEmail]       = useState('');
+    const [avatar, setAvatar]     = useState('');
   return (
         <RootDiv>
             <Container sx={{ marginTop : '16px' }} maxWidth="md">
                 <Paper sx={{ padding : '16px', color: '#2C3D50' }}>
                     <Typography align="center" component="h1" variant="h5">
                         Update User
+                        <Link to='/users'>
+                            <Button sx={{float : 'right'}} variant="contained">Back</Button>
+                        </Link>
                     </Typography>
                     <CustomForm>
                         <Grid2 container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
