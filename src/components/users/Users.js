@@ -25,10 +25,31 @@ function Users() {
     getUsers()
   }, [])
 
-  const updateUser = (id) => {
-    console.log(id)
-    window.location = '/update/' + id
-  }
+  // const updateUser = (id) => {
+  //   console.log(id)
+  //   window.location = '/update/' + id
+  // }
+
+  const deleteUser = (id) => {
+    if (window.confirm('Are you sure you want to delete this user?')) {
+      axios.delete(`https://www.melivecode.com/api/users/delete`, {
+        data: { id } // Sending ID as part of the request body, if needed
+      })
+      .then((response) => {
+        const data = response.data;
+        if (data.status === 'ok') {
+          alert(data.message);
+          getUsers(); // Refresh the list of users
+        } else if (data.status === 'error') {
+          alert('Error: ' + data.message);
+        }
+      })
+      .catch((error) => {
+        console.log('Error: ', error);
+        alert('Failed to delete user.');
+      });
+    }
+  };
   return (
     <RootDiv>
       <Container sx={{ marginTop : '16px' }} maxWidth="lg">
@@ -75,7 +96,7 @@ function Users() {
                           <Link to={`/update/${user.id}`}>
                             <Button>Edit</Button>
                           </Link>
-                          <Button>Del</Button>
+                          <Button onClick={() => deleteUser(user.id)}>Del</Button>
                         </ButtonGroup>
                       </TableCell>
                     </TableRow>

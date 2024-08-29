@@ -41,7 +41,7 @@ function Create() {
                         window.location.href = '/users'
                     }
                     if(data.status === 'error'){
-                        alert('Error: ', data.message)
+                        alert('Error: '+ data.message)
                     }
                 })
                 .catch((error) => {
