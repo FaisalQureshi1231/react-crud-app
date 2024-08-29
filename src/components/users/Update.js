@@ -34,6 +34,36 @@ function Update() {
                 console.log('Error: ', error)
              })
     },[id])
+    const handleSubmit = (event) =>{
+        event.preventDefault()
+        const formData = {
+            'id'   : id,
+            'fname': fname,
+            'lname': lname,
+            'username': username,
+            'email': email,
+            'avatar': avatar,
+        }
+        if(!formData === ''){
+            alert('Please enter all the fields values:')
+        }
+        else{
+            axios.put('https://www.melivecode.com/api/users/update',formData)
+                .then((response) => {
+                    const data = response.data
+                    if(data.status === 'ok'){
+                        alert(data.message)
+                        window.location.href = '/users'
+                    }
+                    if(data.status === 'error'){
+                        alert('Error: ', data.message)
+                    }
+                })
+                .catch((error) => {
+                    console.log('Error: ', error)
+                })
+        }
+    }
   return (
         <RootDiv>
             <Container sx={{ marginTop : '16px' }} maxWidth="md">
@@ -44,7 +74,7 @@ function Update() {
                             <Button sx={{float : 'right'}} variant="contained">Back</Button>
                         </Link>
                     </Typography>
-                    <CustomForm>
+                    <CustomForm onSubmit={handleSubmit}>
                         <Grid2 container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                             <Grid2 size={6}>
                                 <TextField

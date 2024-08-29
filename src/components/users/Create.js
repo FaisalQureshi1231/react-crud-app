@@ -36,10 +36,12 @@ function Create() {
                 .then((response) => {
                     console.log(response.data)
                     const data = response.data;
-                    alert(data.message)
                     if(data.status === 'ok'){
-
+                        alert(data.message)
                         window.location.href = '/users'
+                    }
+                    if(data.status === 'error'){
+                        alert('Error: ', data.message)
                     }
                 })
                 .catch((error) => {
