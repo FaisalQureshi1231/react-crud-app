@@ -24,6 +24,11 @@ function Users() {
   useEffect(()=>{
     getUsers()
   }, [])
+
+  const updateUser = (id) => {
+    console.log(id)
+    window.location = '/update/' + id
+  }
   return (
     <RootDiv>
       <Container sx={{ marginTop : '16px' }} maxWidth="lg">
@@ -67,7 +72,9 @@ function Users() {
                       <TableCell align="left">{user.username}</TableCell>
                       <TableCell align="center">
                         <ButtonGroup color="primary" aria-label="outlined primary button group">
-                          <Button>Edit</Button>
+                          <Link to={`/update/${user.id}`}>
+                            <Button>Edit</Button>
+                          </Link>
                           <Button>Del</Button>
                         </ButtonGroup>
                       </TableCell>

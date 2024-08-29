@@ -1,6 +1,7 @@
 import { Button, Container, Grid2, Paper, styled, TextField, Typography } from '@mui/material'
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+import { Link, useParams } from 'react-router-dom';
 
 const RootDiv = styled('div')({
     flexGrow : 1
@@ -15,6 +16,24 @@ function Update() {
     const [username, setUsername] = useState('');
     const [email, setEmail]       = useState('');
     const [avatar, setAvatar]     = useState('');
+    const { id }                 = useParams();
+    useEffect(() => {
+        axios.get(`https://www.melivecode.com/api/users/${id}`)
+             .then((response) => {
+                const data = response.data;
+                console.log(data)
+                if(data.status === 'ok'){
+                    setFname(data.user.fname)
+                    setLname(data.user.lname)
+                    setUsername(data.user.username)
+                    setEmail(data.user.email)
+                    setAvatar(data.user.avatar)
+                }
+             })
+             .catch((error) => {
+                console.log('Error: ', error)
+             })
+    },[id])
   return (
         <RootDiv>
             <Container sx={{ marginTop : '16px' }} maxWidth="md">
@@ -31,23 +50,26 @@ function Update() {
                                 <TextField
                                     autoComplete="fname"
                                     name="firstName"
+                                    value={fname}
                                     variant="outlined"
                                     required
                                     fullWidth
                                     id="firstName"
                                     label="First Name"
-                                    autoFocus
+                                    onChange={(e) => setFname(e.target.value)}
                                 />
                             </Grid2>
                             <Grid2  size={6}>
                                 <TextField
                                     autoComplete="off"
                                     name="lastName"
+                                    value={lname}
                                     variant="outlined"
                                     required
                                     fullWidth
                                     id="lastName"
                                     label="Last Name"
+                                    onChange={(e) => setLname(e.target.value)}
                                 />
                             </Grid2>
                             <Grid2  size={6}>
@@ -57,6 +79,8 @@ function Update() {
                                     fullWidth
                                     id="username"
                                     label="Username"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
                                 />
                             </Grid2>
                             <Grid2  size={6}>
@@ -67,6 +91,8 @@ function Update() {
                                     id="email"
                                     label="Email"
                                     type="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                 />
                             </Grid2>
                             <Grid2  size={12}>
@@ -77,6 +103,8 @@ function Update() {
                                     id="avatar"
                                     label="Avatar"
                                     type="url"
+                                    value={avatar}
+                                    onChange={(e) => setAvatar(e.target.value)}
                                 />
                             </Grid2>
                         </Grid2>
