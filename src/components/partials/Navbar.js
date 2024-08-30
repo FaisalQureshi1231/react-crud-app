@@ -1,7 +1,7 @@
 import React from 'react'
 import { AppBar, Box, Button, IconButton, styled, Toolbar, Typography } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu';
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 
 const ButtonNavLink = styled(Button)(({ theme, isActive }) => ({
     textDecoration: 'none',
@@ -33,7 +33,9 @@ function Navbar() {
                             <ButtonNavLink sx={{ color: '#fff' }}>Users</ButtonNavLink>
                         </NavLink>
                     </Typography>
-                    <Button color="inherit">Login</Button>
+                    <Link to='/login'>
+                        <ButtonNavLink sx={{ color: '#fff' }}>Login</ButtonNavLink>
+                    </Link>
                 </Toolbar>
             </AppBar>
         </Box>
