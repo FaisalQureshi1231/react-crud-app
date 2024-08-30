@@ -1,7 +1,8 @@
 import React from 'react'
 import { AppBar, Box, Button, IconButton, styled, Toolbar, Typography } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu';
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { useAuth } from '../auth/Auth';
 
 const ButtonNavLink = styled(Button)(({ theme, isActive }) => ({
     textDecoration: 'none',
@@ -12,6 +13,13 @@ const ButtonNavLink = styled(Button)(({ theme, isActive }) => ({
 }));
 
 function Navbar() {
+    const auth      = useAuth()
+    const navigate  = useNavigate()
+    const handleLogout = () => {
+        
+        auth.logout()
+        navigate('/')
+    }
   return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
@@ -33,9 +41,17 @@ function Navbar() {
                             <ButtonNavLink sx={{ color: '#fff' }}>Users</ButtonNavLink>
                         </NavLink>
                     </Typography>
-                    <Link to='/login'>
-                        <ButtonNavLink sx={{ color: '#fff' }}>Login</ButtonNavLink>
-                    </Link>
+                    {
+                        auth.isLogedIn ? 
+                        (
+                            <ButtonNavLink onClick={handleLogout} sx={{ color: '#fff' }}>Logout</ButtonNavLink>
+                        ) :
+                        (
+                            <Link to='/login'>
+                                <ButtonNavLink sx={{ color: '#fff' }}>Login</ButtonNavLink>
+                            </Link>
+                        ) 
+                    }
                 </Toolbar>
             </AppBar>
         </Box>

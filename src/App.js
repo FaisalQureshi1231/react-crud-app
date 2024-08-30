@@ -8,6 +8,7 @@ import Create from './components/users/Create';
 import Update from './components/users/Update';
 import Login from './components/auth/Login';
 import { AuthProvider } from './components/auth/Auth';
+import RequireAuth from './components/auth/RequireAuth';
 
 function App() {
   return (
@@ -22,8 +23,8 @@ function App() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='users' element = {<Users />} />
-          <Route path='create' element={<Create />} />
-          <Route path='update/:id' element={<Update />} />
+          <Route path='create' element={<RequireAuth><Create /></RequireAuth>} />
+          <Route path='update/:id' element={<RequireAuth><Update /></RequireAuth>} />
           <Route path='login' element ={<Login />} />
         </Routes>
      </AuthProvider>

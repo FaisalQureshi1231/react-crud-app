@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Avatar, Box, Button, ButtonGroup, Container, Paper, styled, Table, TableBody, 
           TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios'
+import { useAuth } from '../auth/Auth';
 
 const RootDiv = styled('div')({
   flexGrow : 1
@@ -10,6 +11,7 @@ const RootDiv = styled('div')({
 
 function Users() {
   const [users, setUsers] = useState([])
+  const auth              = useAuth()
 
   const getUsers = () => {
     axios.get('https://www.melivecode.com/api/users')
@@ -61,11 +63,14 @@ function Users() {
               </Typography>
             </Box>
             <Box>
-              <Link to="/create">
-                <Button variant="contained" color="primary">
-                  CREATE
-                </Button>
-              </Link>
+              {
+                auth.isLogedIn && 
+                <Link to="/create">
+                  <Button variant="contained" color="primary">
+                    CREATE
+                  </Button>
+                </Link>
+              }
             </Box>
           </Box>
           <TableContainer sx={{ marginTop: '10px', flexGrow : 1}} component={Paper}>
@@ -76,7 +81,10 @@ function Users() {
                   <TableCell align="center">Avatar</TableCell>
                   <TableCell align="left">Name</TableCell>
                   <TableCell align="left">Username</TableCell>
-                  <TableCell align="center">Action</TableCell>
+                  {
+                    auth.isLogedIn && 
+                    <TableCell align="center">Action</TableCell>
+                  }
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -92,12 +100,15 @@ function Users() {
                       <TableCell align="left">{user.fname} {user.lname}</TableCell>
                       <TableCell align="left">{user.username}</TableCell>
                       <TableCell align="center">
-                        <ButtonGroup color="primary" aria-label="outlined primary button group">
-                          <Link to={`/update/${user.id}`}>
-                            <Button>Edit</Button>
-                          </Link>
-                          <Button onClick={() => deleteUser(user.id)}>Del</Button>
-                        </ButtonGroup>
+                        {
+                          auth.isLogedIn && 
+                          <ButtonGroup color="primary" aria-label="outlined primary button group">
+                            <Link to={`/update/${user.id}`}>
+                              <Button>Edit</Button>
+                            </Link>
+                            <Button onClick={() => deleteUser(user.id)}>Del</Button>
+                          </ButtonGroup>
+                        }
                       </TableCell>
                     </TableRow>
                   ))
